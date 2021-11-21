@@ -4,12 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [1.0.1](https://github.com/tembo-pages/tembo-core/commits/1.0.1) - 2021-11-21
+<small>[Compare with v1.0.0](https://github.com/tembo-pages/tembo-core/compare/v1.0.1...v1.0.0)</small>
 
 ### Miscellaneous Tasks
 
 - Add changelog generation using git-cliff ([4c8d68](https://github.com/tembo-pages/tembo-core/commit/4c8d686abb82ade97680a3e8cdef267559282ff4))
-- Prepare release 1.0.1 ([bd45c2](https://github.com/tembo-pages/tembo-core/commit/bd45c224284c5fde6316f3000a4f32266f065c30))
+- Prepare release 1.0.1 ([b077aa](https://github.com/tembo-pages/tembo-core/commit/b077aaaf6666e78507f6439fa2e10a34c55176e5))
 
 ## [1.0.0](https://github.com/tembo-pages/tembo-core/commits/v1.0.0) - 2021-11-21
 
