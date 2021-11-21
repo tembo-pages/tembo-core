@@ -66,22 +66,21 @@ def coverage(ctx):
 
 
 @duty
-def version(ctx, bump: str = "patch"):
+def bump(ctx, version: str = "patch"):
     """
     Bump the version using Poetry and update _version.py.
 
     Args:
         ctx: The context instance (passed automatically).
-        bump (str, optional) = poetry version flag. Available options are:
-            patch, minor, major, prepatch, preminor, premajor, prerelease.
-            Defaults to patch.
+        version (str, optional) = poetry version flag. Available options are:
+            patch, minor, major. Defaults to patch.
 
     Example:
-        `duty version bump=major`
+        `duty bump version=major`
     """
 
     # bump with poetry
-    result = ctx.run(["poetry", "version", bump])
+    result = ctx.run(["poetry", "version", version])
     new_version = re.search(r"(?:.*)(?:\s)(\d+\.\d+\.\d+)$", result)
     print(new_version.group(0))
 
@@ -124,6 +123,22 @@ def build(ctx):
 
     # cleanup
     shutil.rmtree(extracted_path)
+
+
+@duty
+def release(ctx, version: str = "patch") -> None:
+    """
+    Prepare package for a new release.
+
+    Will run bump, build, export. Manual running of publish is required afterwards.
+
+    Args:
+        ctx: The context instance (passed automatically).
+        version (str): poetry version flag. Available options are: patch, minor, major.
+    """
+    print(ctx.run(["duty", "bump", f"version={version}"]))
+    ctx.run(["duty", "build"])
+    ctx.run(["duty", "export"])
 
 
 @duty
@@ -328,6 +343,8 @@ def update_changelog(
     marker: str,
     version_regex: str,
     commit_style: str,
+    planned_tag: str,
+    last_released: str,
 ) -> None:
     """
     Update the given changelog file in place.
@@ -347,8 +364,9 @@ def update_changelog(
 
     if len(changelog.versions_list) == 1:
         last_version = changelog.versions_list[0]
+        print(last_version.planned_tag)
         if last_version.planned_tag is None:
-            planned_tag = "0.1.0"
+            planned_tag = planned_tag
             last_version.tag = planned_tag
             last_version.url += planned_tag
             last_version.compare_url = last_version.compare_url.replace("HEAD", planned_tag)
@@ -356,7 +374,9 @@ def update_changelog(
     with open(inplace_file, "r") as changelog_file:
         lines = changelog_file.read().splitlines()
 
-    last_released = _latest(lines, re.compile(version_regex))
+    # last_released = _latest(lines, re.compile(version_regex))
+    last_released = last_released
+    print(last_released)
     if last_released:
         changelog.versions_list = _unreleased(changelog.versions_list, last_released)
     rendered = template.render(changelog=changelog, inplace=True)
@@ -366,24 +386,37 @@ def update_changelog(
         changelog_file.write("\n".join(lines).rstrip("\n") + "\n")
 
 
-@duty
-def changelog(ctx):
+# @duty
+def changelog(planned_tag, last_released):
     """
     Update the changelog in-place with latest commits.
     Arguments:
         ctx: The context instance (passed automatically).
     """
-    ctx.run(
-        update_changelog,
-        kwargs={
-            "inplace_file": "CHANGELOG.md",
-            "marker": "<!-- insertion marker -->",
-            "version_regex": r"^## \[v?(?P<version>[^\]]+)",
-            "commit_style": "angular",
-        },
-        title="Updating changelog",
-        pty=True,
+    # print(
+    #     ctx.run(
+    #         update_changelog,
+    #         kwargs={
+    #             "inplace_file": "CHANGELOG.md",
+    #             "marker": "<!-- insertion marker -->",
+    #             "version_regex": r"^## \[v?(?P<version>[^\]]+)",
+    #             "commit_style": "angular",
+    #         },
+    #         title="Updating changelog",
+    #         pty=True,
+    #     )
+    # )
+
+    update_changelog(
+        inplace_file="CHANGELOG.md",
+        marker="<!-- insertion marker -->",
+        version_regex=r"^## \[v?(?P<version>[^\]]+)",
+        commit_style="angular",
+        planned_tag=planned_tag,
+        last_released=last_released
     )
+
+
 
 
 def rm_tree(directory: pathlib.Path):
@@ -447,3 +480,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 {{ render_version(version) }}
 {%- endfor -%}
     """
+
+
+if __name__ == "__main__":
+    changelog("1.0.1", "1.0.0")
