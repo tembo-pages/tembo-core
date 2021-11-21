@@ -5,10 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-<!-- insertion marker -->
-## [0.1.0](https://github.com/tembo-pages/tembo-core/releases/tag/0.1.0) - 2021-11-20
 
-<small>[Compare with first commit](https://github.com/tembo-pages/tembo-core/compare/8884a942c5c2a2815a1bbc75fb106555402d2055...0.1.0)</small>
+<!-- insertion marker -->
+## [1.0.0](https://github.com/tembo-pages/tembo-core/releases/tag/1.0.01.0.0) - 2021-11-21
+
+<small>[Compare with first commit](https://github.com/tembo-pages/tembo-core/compare/fb7fec7ea619318b0e0830c0f9260335c0d4e173...1.0.0)</small>
 
 ### Features
-- update duties ([e2b4ef9](https://github.com/tembo-pages/tembo-core/commit/e2b4ef9f91c484d0d26ee5afcd308b6470f46370) by Daniel Tomlinson).
+- initial commit ([fb7fec7](https://github.com/tembo-pages/tembo-core/commit/fb7fec7ea619318b0e0830c0f9260335c0d4e173) by Daniel Tomlinson).
