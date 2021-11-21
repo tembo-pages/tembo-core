@@ -322,99 +322,23 @@ def check_dependencies(ctx):
         pty=True,
     )
 
-
-def _latest(lines: List[str], regex: Pattern) -> Optional[str]:
-    for line in lines:
-        match = regex.search(line)
-        if match:
-            return match.groupdict()["version"]
-    return None
-
-
-def _unreleased(versions, last_release):
-    for index, version in enumerate(versions):
-        if version.tag == last_release:
-            return versions[:index]
-    return versions
-
-
-def update_changelog(
-    inplace_file: str,
-    marker: str,
-    version_regex: str,
-    commit_style: str,
-    planned_tag: str,
-    last_released: str,
-) -> None:
+@duty
+def changelog(ctx, planned_release: Optional[str] = None):
     """
-    Update the given changelog file in place.
-    Arguments:
-        inplace_file: The file to update in-place.
-        marker: The line after which to insert new contents.
-        version_regex: A regular expression to find currently documented versions in the file.
-        template_url: The URL to the Jinja template used to render contents.
-        commit_style: The style of commit messages to parse.
-    """
-    from git_changelog.build import Changelog
-    from jinja2.sandbox import SandboxedEnvironment
+    Generate a changelog with git-cliff.
 
-    env = SandboxedEnvironment(autoescape=False)
-    template = env.from_string(changelog_template())
-    changelog = Changelog(".", style=commit_style)
-
-    if len(changelog.versions_list) == 1:
-        last_version = changelog.versions_list[0]
-        print(last_version.planned_tag)
-        if last_version.planned_tag is None:
-            planned_tag = planned_tag
-            last_version.tag = planned_tag
-            last_version.url += planned_tag
-            last_version.compare_url = last_version.compare_url.replace("HEAD", planned_tag)
-
-    with open(inplace_file, "r") as changelog_file:
-        lines = changelog_file.read().splitlines()
-
-    # last_released = _latest(lines, re.compile(version_regex))
-    last_released = last_released
-    print(last_released)
-    if last_released:
-        changelog.versions_list = _unreleased(changelog.versions_list, last_released)
-    rendered = template.render(changelog=changelog, inplace=True)
-    lines[lines.index(marker)] = rendered
-
-    with open(inplace_file, "w") as changelog_file:  # noqa: WPS440
-        changelog_file.write("\n".join(lines).rstrip("\n") + "\n")
-
-
-# @duty
-def changelog(planned_tag, last_released):
-    """
-    Update the changelog in-place with latest commits.
-    Arguments:
+    Args:
         ctx: The context instance (passed automatically).
+        planned_release (str, optional): The planned release version. Example: v1.0.2
     """
-    # print(
-    #     ctx.run(
-    #         update_changelog,
-    #         kwargs={
-    #             "inplace_file": "CHANGELOG.md",
-    #             "marker": "<!-- insertion marker -->",
-    #             "version_regex": r"^## \[v?(?P<version>[^\]]+)",
-    #             "commit_style": "angular",
-    #         },
-    #         title="Updating changelog",
-    #         pty=True,
-    #     )
-    # )
+    if planned_release is not None:
+        changelog = ctx.run(["git", "cliff", "--tag", planned_release])
+    else:
+        changelog = ctx.run(["git", "cliff"])
 
-    update_changelog(
-        inplace_file="CHANGELOG.md",
-        marker="<!-- insertion marker -->",
-        version_regex=r"^## \[v?(?P<version>[^\]]+)",
-        commit_style="angular",
-        planned_tag=planned_tag,
-        last_released=last_released
-    )
+    changelog_file = pathlib.Path(".") / "CHANGELOG.md"
+    with changelog_file.open("w", encoding="utf-8") as changelog_contents:
+        changelog_contents.write(changelog)
 
 
 
@@ -432,55 +356,3 @@ def rm_tree(directory: pathlib.Path):
         else:
             rm_tree(child)
     directory.rmdir()
-
-
-def changelog_template() -> str:
-    return """
-{% if not inplace -%}
-# Changelog
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
-{% endif %}<!-- insertion marker -->
-{% macro render_commit(commit) -%}
-- {{ commit.style.subject|default(commit.subject) }} ([{{ commit.hash|truncate(7, True, '') }}]({{ commit.url }}) by {{ commit.author_name }}).
-{%- if commit.text_refs.issues_not_in_subject %} References: {% for issue in commit.text_refs.issues_not_in_subject -%}
-{% if issue.url %}[{{ issue.ref }}]({{ issue.url }}){%else %}{{ issue.ref }}{% endif %}{% if not loop.last %}, {% endif -%}
-{%- endfor -%}{%- endif -%}
-{%- endmacro -%}
-
-{%- macro render_section(section) -%}
-### {{ section.type or "Misc" }}
-{% for commit in section.commits|sort(attribute='author_date',reverse=true)|unique(attribute='subject') -%}
-{{ render_commit(commit) }}
-{% endfor %}
-{%- endmacro -%}
-
-{%- macro render_version(version) -%}
-{%- if version.tag or version.planned_tag -%}
-## [{{ version.tag or version.planned_tag }}]({{ version.url }}){% if version.date %} - {{ version.date }}{% endif %}
-
-<small>[Compare with {{ version.previous_version.tag|default("first commit") }}]({{ version.compare_url }})</small>
-{%- else -%}
-## Unrealeased
-
-<small>[Compare with latest]({{ version.compare_url }})</small>
-{%- endif %}
-
-{% for type, section in version.sections_dict|dictsort -%}
-{%- if type and type in changelog.style.DEFAULT_RENDER -%}
-{{ render_section(section) }}
-{% endif -%}
-{%- endfor -%}
-{%- endmacro -%}
-
-{% for version in changelog.versions_list -%}
-{{ render_version(version) }}
-{%- endfor -%}
-    """
-
-
-if __name__ == "__main__":
-    changelog("1.0.1", "1.0.0")
