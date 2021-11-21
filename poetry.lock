@@ -538,20 +538,15 @@ pyparsing = ">=2.0.2,<3.0.5 || >3.0.5"
 
 [[package]]
 name = "panaetius"
-version = "2.3.2"
+version = "2.3.3"
 description = "Python module to gracefully handle a .config file/environment variables for scripts, with built in masking for sensitive options. Provides a Splunk friendly formatted logger instance."
 category = "main"
 optional = false
-python-versions = "^3.7"
-develop = true
+python-versions = ">=3.7,<4.0"
 
 [package.dependencies]
-PyYAML = "^6.0"
-toml = "^0.10.0"
-
-[package.source]
-type = "directory"
-url = "../../panaetius"
+PyYAML = ">=6.0,<7.0"
+toml = ">=0.10.0,<0.11.0"
 
 [[package]]
 name = "pbr"
@@ -1119,7 +1114,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "0126a464628e466ebffe16877a2a727a10a2a298c90f504274f264b5ab8b4fcd"
+content-hash = "1865d915f794aa79cb865a812b30fdc47bf193769595cab3975fa3d1d6515de4"
 
 [metadata.files]
 altgraph = [
@@ -1443,7 +1438,10 @@ packaging = [
     {file = "packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
     {file = "packaging-21.3.tar.gz", hash = "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"},
 ]
-panaetius = []
+panaetius = [
+    {file = "panaetius-2.3.3-py3-none-any.whl", hash = "sha256:44d8554dbeea25f16c7c36bc97e35369eb87c09b339a6347c6053ded00890569"},
+    {file = "panaetius-2.3.3.tar.gz", hash = "sha256:d984596a54f74763bc76664dcf04e41d080d20d8e458ccf42a9e7da1846cfcf2"},
+]
 pbr = [
     {file = "pbr-5.8.0-py2.py3-none-any.whl", hash = "sha256:176e8560eaf61e127817ef93d8a844803abb27a4d4637f0ff3bb783129be2e0a"},
     {file = "pbr-5.8.0.tar.gz", hash = "sha256:672d8ebee84921862110f23fcec2acea191ef58543d34dfe9ef3d9f13c31cddf"},
