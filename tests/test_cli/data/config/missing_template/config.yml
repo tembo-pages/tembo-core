@@ -1,0 +1,8 @@
+﻿tembo:
+  scopes:
+    - name: some_scope
+      example: tembo new some_scope
+      path: some_scope
+      filename: "{name}"
+      extension: md
+      template_filename: some_nonexistent_template.md.tpl

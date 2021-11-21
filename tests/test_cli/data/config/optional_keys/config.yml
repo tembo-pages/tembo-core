@@ -1,0 +1,6 @@
+﻿tembo:
+  scopes:
+    - name: some_scope
+      path: "some_scope"
+      filename: "{name}"
+      extension: md

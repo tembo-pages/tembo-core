@@ -1,0 +1,152 @@
+Priority:
+    ✔ Version duty @done(21-11-09 23:54)
+    ✔ Duty to `poetry build` and extract + copy `setup.py` to root @done(21-11-10 22:14)
+    ✘ Duty to run tests in isolation @cancelled(21-11-10 22:30)
+    ✔ Docstrings @done(21-11-15 21:37)
+    ✔ Update trilium with latest docstrings (documenting __init__ at class level etc) @done(21-11-15 21:37)
+        Make sure the gist is updated for prospector with the right ignores
+        ✔ Go over Panaetius @done(21-11-15 21:37)
+        ✔ Update docstrings with latest @done(21-11-15 21:37)
+        ✔ Write basic README.md page with 2 uses @done(21-11-15 21:37)
+        Script and Module usage
+        ✔ Build and publish latest version @done(21-11-15 21:37)
+        ☐ Write Tembo documentation with mkdocs
+    ✔ Document duties in Trilium and create a gist for common duties @done(21-11-15 21:37)
+    ☐ Document writing documentation in Trilium with example to Trilium
+    ☐ Integrate sonarcloud with CI (github actions?)
+
+Documentation:
+    Docstrings:
+        ✔ Use Duty to write module docstrings @done(21-11-15 21:37)
+        ✔ Use Duty to add Class docstrings @done(21-11-15 21:37)
+            ✔ Document these in Trilium and rewrite the docstrings notes @done(21-11-15 21:37)
+        ☐ Add the comment on Reddit (artie buco?) about imports in a module
+
+    ✔ Add the CLI initialisation boilerplate to trilium @done(21-11-10 22:50)
+        ✔ _version, base command, __init__.py etc @done(21-11-10 22:49)
+    ☐ Write documentation using `mkdocs`
+    ✔ Create a boilerplate `duties.py` for common tasks for future projects. Put in a gist. @done(21-11-15 21:37)
+    ☐ Look at how to use github actions
+        Use <https://github.com/pdm-project/pdm/tree/main/.github/workflows> for an example
+        ☐ Build the docs using a github action.
+
+Functionality:
+    ✔ Use the python runner Duty @done(21-11-15 21:37)
+        <https://github.com/pawamoy/duty>
+        ✔ Run tests @done(21-11-10 22:54)
+        ✔ Update poetry @done(21-11-10 22:54)
+        ☐ Build docs
+        ✔ Document using Duty @done(21-11-15 21:37)
+    ✔ Duty for auto insert version from `poetry version`. @done(21-11-09 23:53)
+        Need to decide what file to place `__version__` in.
+
+VSCode:
+    PyInstaller:
+        ☐ Document build error: <https://github.com/pyenv/pyenv/issues/1095>
+        PYTHON_CONFIGURE_OPTS="--enable-framework" pyenv install 3.8.11 mac
+        PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.8.11 linux
+        ☐ Freeze a click app: <https://stackoverflow.com/questions/45090083/freeze-a-program-created-with-pythons-click-pacage>
+        ☐ If python 3.9 can be used with Pyinstaller, rewrite the code to use the latest Python features
+            dict.update -> |=
+            walrus :=
+
+VSCode:
+    ☐ Look at <https://github.com/CodeWithSwastik/vscode-ext>
+
+Logging:
+    Documentation:
+        Tembo:
+            ☐ Document creating new Tembo config
+            ☐ ~/tembo needs creating
+            ☐ ~/tembo/.config
+            ☐ ~/tembo/.templates
+            ☐ ~/tembo/logs
+            ☐ Document how to overwrite these with ENV vars
+            ☐ have a git repo with all the above already configured and walk user through
+                clone the repo, delete .git, git init, configure and add git origin
+
+Archive:
+  ✘ test logs: <https://stackoverflow.com/questions/53125305/testing-logging-output-with-pytest> @cancelled(21-11-09 23:15) @project(Priority)
+    document this
+  ✔ Write the tests @done(21-11-07 15:36) @project(Priority)
+  ✔ documented poetry with extras (panaetius `pyproject.toml`) @done(21-11-09 22:29) @project(Documentation)
+  ✔ Document using `__main__.py` and `cli.py` @done(21-11-07 15:21) @project(Documentation.Docstrings)
+    Use Duty as an example
+  ✔ Document regex usage @done(21-11-09 22:39) @project(Documentation)
+  ✔ Document how to use pytest to read a logging message @done(21-11-09 22:57) @project(Documentation)
+    <https://stackoverflow.com/questions/53125305/testing-logging-output-with-pytest>
+    caplog as fixture
+    reading `caplog.records[0].message`
+    see `_old_test_pages.py`
+  ✔ Document testing value of an exception raised @done(21-11-09 22:50) @project(Documentation)
+    When you use `with pytest.raises` you can use `.value` to access the attributes
+    reading `.value.code`
+    reading `str(.value)`
+  ✔ Document working with exceptions @done(21-11-09 22:17) @project(Documentation)
+  ✔ General pattern - raise exceptions in codebase, catch them in the CLI. @done(21-11-09 22:16) @project(Documentation)
+    Allows people to use via an API and handle the exceptions themselves.
+    You can use python builtins but custom exceptions are better for internal control
+  ✔ Capturing exceptions in the CLI. @done(21-11-09 22:16) @project(Documentation)
+    Access the message of the exception with `.args[0]`.
+    use `raise SystemExit(1) from exception` in order to gracefully exit
+  ✔ Adding custom args to an exception @done(21-11-09 22:17) @project(Documentation)
+    Overwrite `__init__`, access them in pytest with `.value.$args`
+    Access them in a try,except with `raise $excpetion as $name; $name.$arg`
+  ✔ Document capturing stdout @done(21-11-09 22:59) @project(Documentation)
+    Use `capsys`
+    `assert capsys.readouterr().out`
+    A new line may be inserted if using `click.echo()`
+    <https://docs.pytest.org/en/6.2.x/capture.html>
+  ✔ Document using datadir with a module rather than a shared one. Link to tembo as an example. @done(21-11-09 22:59) @project(Documentation)
+  ✘ Can prospector ignore tests dir? document this in the gist if so @cancelled(21-11-09 23:08) @project(Documentation)
+  ✔ Redo the documentation on a CLI, reorganise and inocropoate all the new tembo layouts @done(21-11-09 23:08) @project(Documentation)
+  ✔ Document importing in inidivudal tests using `importlib.reload` @done(21-11-09 23:13) @project(Documentation.Testing)
+    Globally import the module
+    Use `importlib.reload(module)` in each test instead of explicitly importing the module.
+    This is because the import is cached.
+    <https://stackoverflow.com/questions/32234156/how-to-unimport-a-python-module-which-is-already-imported>
+  ✔ Replace loggers with `click.echo` for command outputs. Keep logging messages for actual logging messages? @done(21-11-09 22:17) @project(Functionality)
+    Define a format: [TEMBO:$datetime] $message 🐘 - document this in general python for CLI
+  ✔ Refactor the tembo new command so the cli is split out into manageable methods @done(21-11-07 15:35) @project(Functionality)
+  ✘ Use the complicated CLI example so the tembo new has its own module to define functions in @cancelled(21-11-07 15:35) @project(Functionality)
+  ✔ Replace all logger errors with exceptions, move logger messages to the cli. @done(21-11-07 15:35) @project(Functionality)
+  ✔ How to pass a successful save notification back to the CLI? Return a bool? Or is there some other way? @done(21-11-07 15:35) @project(Functionality)
+  ✘ Replace pendulum with datetime @cancelled(21-11-07 15:35) @project(Functionality)
+  ✔ Make options a property on the class, add to abstract @done(21-10-30 19:31) @project(Functionality)
+  ✘ Make all internal tembo logs be debug @cancelled(21-11-09 22:20) @project(Logging)
+  ✘ User can enable them with the config @cancelled(21-11-09 22:20) @project(Logging)
+  ✔ Write tests! @2d @done(21-11-07 15:36) @project(Tests)
+    Use coverage as going along to make sure all bases are covered in the testing
+  ✔ Document the python/logging/typing in Trilium @done(21-10-25 14:33) @project(Priority)
+  ✔ Update typing annotations to include generics instead @done(21-10-25 22:38) @project(Priority)
+    https://docs.python.org/3/library/collections.abc.html#collections-abstract-base-classes
+  ✔ Move any `tembo.CONFIG` calls out of `pages.py` and ensure these are passed in from the cli. @done(21-10-28 19:44) @project(Functionality)
+  ✔ Make `config scope` a dict in `cli.py`. @done(21-10-28 19:44) @project(Functionality)
+  ✔ Make example optional @done(21-10-29 00:15) @project(Functionality)
+  ✔ Add the `--example` output to the miscounted token message so the user knows the correct command to use. @done(21-10-29 00:15) @project(Functionality)
+  ✔ Page options dataclass @done(21-10-28 20:09) @project(Functionality)
+  ✔ Make user_input optional @important @done(21-10-30 03:20) @project(Functionality)
+  ✔ Look at `_convert_to_path()` and see if it can be rewritten to make it clearer when there isn't a base path. @done(21-10-30 02:14) @project(Functionality)
+  ✔ Replace scoped page creator inputs so that the whole class uses the options dict rather than the variables passed around. @done(21-10-30 03:20) @project(Functionality)
+  ✔ Go through code TODOs @done(21-10-25 05:52) @project(Priority)
+  ✔ Check code order and make sure things are where they should be @done(21-10-25 13:31) @project(Priority)
+  ✔ Add version option @done(21-10-25 13:40) @project(Functionality)
+  ✘ Document usage of Panaetius in a module @cancelled(21-10-25 13:31) @project(Logging.Documentation)
+  ✘ Uses `strftime` tokens: <https://strftime.org> @cancelled(21-10-25 13:32) @project(Logging.Documentation)
+  ✔ Document latest typing. @done(21-10-25 14:14) @project(Logging.Documentation)
+  ✔ Using from `__future__` with `|` @done(21-10-25 13:48) @project(Logging.Documentation)
+  ✔ `using Tuple[str, ...]` @done(21-10-25 13:49) @project(Logging.Documentation)
+  ✔ `Sequence` vs `Collection` @done(21-10-25 13:55) @project(Logging.Documentation)
+  ✔ Document how to do docstrings in python. Don't document `__init__` do it in class. @done(21-10-25 13:57) @project(Logging.Documentation)
+  ✔ Document using jinja2 briefly and link to Tembo (link to <https://zetcode.com/python/jinja/>) @done(21-10-25 14:21) @project(Logging.Documentation)
+  ✔ How to raise + debug an exception? @done(21-10-25 14:32) @project(Logging.Documentation.Logging)
+  ✔ Document how to raise a logger.critical instead of exception @done(21-10-25 14:32) @project(Logging.Documentation.Logging)
+  ✔ tokens @done(21-10-25 05:35) @project(Bug)
+  ✔ Handle case where there are no scopes in the config and command is invoked. @done(21-10-25 04:32) @project(Functionality)
+  ✔ Have an `--example` flag to `new` that prints an example given in the `config.yml` @done(21-10-25 04:55) @project(Functionality)
+  ✔ Should be a `tembo new --list` to list all possible names. @done(21-10-25 05:28) @project(Functionality)
+  ✘ When template not found, raise a Tembo error @cancelled(21-10-25 05:29) @project(Functionality)
+  ✔ Convert spaces to underscores in filepath @done(21-10-25 05:35) @project(Functionality)
+  ✘ Add update notification? @cancelled(21-10-25 05:29) @project(Functionality)
+  ✔ `TEMBO_CONFIG` should follow same pattern as other env vars and be a python string when read in @done(21-10-24 05:31) @project(Functionality)
+  ✘ Uses Pendulum tokens: https://pendulum.eustace.io/docs/#tokens @cancelled(21-10-24 05:32) @project(Logging.Documentation)

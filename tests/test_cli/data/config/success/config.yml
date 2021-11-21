@@ -1,0 +1,16 @@
+﻿tembo:
+  scopes:
+    - name: some_scope
+      example: tembo new some_scope
+      path: "some_scope"
+      filename: "{name}"
+      extension: md
+    - name: some_scope_no_example
+      path: "some_scope"
+      filename: "{name}"
+      extension: md
+    - name: another_some_scope
+      example: tembo new another_some_scope
+      path: "another_some_scope"
+      filename: "{name}"
+      extension: md

@@ -1,0 +1,63 @@
+﻿name: tests
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repo & install Python
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with:
+            # disable shallow clones for better sonarcloud accuracy
+            fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      # Install & configure Poetry
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+      # Load cached venv
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      # Install dependencies if no cache
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      # Install package if needed
+      - name: Install package
+        run: poetry install --no-interaction
+      # Run tests
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          pytest -v --cov --junitxml=pytest.xml
+          coverage xml -i
+          sed -i 's/\/home\/runner\/work\/tembo-core\/tembo-core\///g' coverage.xml
+          sed -i 's/\/home\/runner\/work\/tembo-core\/tembo-core\///g' pytest.xml
+      # Run linting
+      - name: Run prospector linting
+        run: |
+          source .venv/bin/activate
+          prospector "./tembo"
+      # Upload to sonarcloud
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

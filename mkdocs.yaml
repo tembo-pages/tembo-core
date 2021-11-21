@@ -1,0 +1,107 @@
+﻿# Project Information
+
+# Repository
+site_name: Tembo
+site_url: https://tembo-pages.github.io/tembo-core/
+site_description: "Tembo: A simple folder organiser for your work notes."
+site_author: Daniel Tomlinson
+repo_url: https://github.com/tembo-pages/tembo-core
+repo_name: tembo-pages/tembo-core
+
+# Preview Controls
+# set use_directory_urls false if browsing locally
+# use_directory_urls: false
+
+# Page Tree
+nav:
+  - Home:
+      - Overview: index.md
+      - Changelog: home/changelog.md
+      - License: home/license.md
+  - Code Reference: code_reference/
+  - CLI Reference:
+      - tembo: cli_reference/main.md
+  - Development:
+      - Coverage report: coverage.md
+
+# Theme
+theme:
+  name: material
+  logo: assets/tembo_doc_logo.png
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.instant
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+# Extensions - see https://squidfunk.github.io/mkdocs-material/setup/extensions/?h= for all options
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: true
+  - toc:
+      # sets the character used to bookmark the title
+      permalink: "¤"
+  - pymdownx.highlight:
+      # show title, linenums
+      # auto_title: true
+      # linenums: true
+      # linenums_style: pymdownx-inline
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.arithmatex:
+      generic: true
+  - mkdocs-click
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+  - mkdocstrings:
+      handlers:
+        python:
+          import:
+            - https://docs.python.org/3/objects.inv
+  - gen-files:
+      scripts:
+        - docs/gen_reference.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - coverage
+
+# Customisation
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# CSS
+extra_css:
+  - css/mkdocstrings.css
+  # - css/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/tembo-pages/tembo-core
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:dtomlinson@panaetius.co.uk
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/dmot7291
