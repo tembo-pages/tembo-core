@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "tembo"
 description = "A simple folder organiser for your work notes."
-version = "1.0.0"
+version = "1.0.1"
 license = "ISC"
 authors = ["dtomlinson <dtomlinson@panaetius.co.uk>"]
 readme = "./README.md"
