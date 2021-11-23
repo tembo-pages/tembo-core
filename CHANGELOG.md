@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 
 <!-- marker -->
+## [v1.0.3](https://github.com/tembo-pages/tembo-core/commits/v1.0.3) - 2021-11-23
+<small>[Compare with v1.0.2](https://github.com/tembo-pages/tembo-core/compare/v1.0.2..v1.0.3)</small>
+
+### Documentation
+
+- Update changelog ([f33f21](https://github.com/tembo-pages/tembo-core/commit/f33f215c7ef563dbddfcfde3818f1bfd0d1547a2))
+- Update changelog ([d84150](https://github.com/tembo-pages/tembo-core/commit/d8415067730e1310a426f6dd97304a436097760a))
+
+### Miscellaneous Tasks
+
+- Update duties.py ([d9e13b](https://github.com/tembo-pages/tembo-core/commit/d9e13b5c351d5be7c1f1dd60cf389b62d63ecd5b))
+
 ## [v1.0.2](https://github.com/tembo-pages/tembo-core/commits/v1.0.2) - 2021-11-23
 <small>[Compare with v1.0.1](https://github.com/tembo-pages/tembo-core/compare/v1.0.1..v1.0.2)</small>
 
