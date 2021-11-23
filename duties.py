@@ -331,16 +331,19 @@ def changelog(ctx, planned_release: Optional[str] = None):
         ctx: The context instance (passed automatically).
         planned_release (str, optional): The planned release version. Example: v1.0.2
     """
-    if planned_release is not None:
-        changelog = ctx.run(["git", "cliff", "--tag", planned_release])
-    else:
-        changelog = ctx.run(["git", "cliff"])
+    generated_changelog = ctx.run(["git", "cliff", "-u", "-t", planned_release, "-s", "header"])[:-1]
+    new_changelog = []
 
     changelog_file = pathlib.Path(".") / "CHANGELOG.md"
+    with changelog_file.open("r", encoding="utf-8") as changelog_contents:
+        all_lines = changelog_contents.readlines()
+        for line_string in all_lines:
+            regex_string = re.search(r"(<!-- marker -->)", line_string)
+            new_changelog.append(line_string)
+            if isinstance(regex_string, re.Match):
+                new_changelog.append(generated_changelog)
     with changelog_file.open("w", encoding="utf-8") as changelog_contents:
-        changelog_contents.write(changelog)
-
-
+        changelog_contents.writelines(new_changelog)
 
 
 def rm_tree(directory: pathlib.Path):
