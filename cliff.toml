@@ -14,7 +14,7 @@ body = """
 {% if version %}\
     ## [{{ version | trim_start_matches(pat="v") }}](https://github.com/tembo-pages/tembo-core/commits/{{ version }}) - {{ timestamp | date(format="%Y-%m-%d") }}
     {% if previous.version %}\
-    <small>[Compare with {{ previous.version }}](https://github.com/tembo-pages/tembo-core/compare/v{{ version }}...{{ previous.version }})</small>
+    <small>[Compare with {{ previous.version }}](https://github.com/tembo-pages/tembo-core/compare/{{ previous.version }}...{{ version }})</small>
     {% endif %}\
 {% else %}\
     ## [unreleased]
