@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # https://tera.netlify.app/docs/#introduction
 body = """
 {% if version %}\
-    ## [{{ version | trim_start_matches(pat="v") }}](https://github.com/tembo-pages/tembo-core/commits/{{ version }}) - {{ timestamp | date(format="%Y-%m-%d") }}
+    ## [{{ version }}](https://github.com/tembo-pages/tembo-core/commits/{{ version }}) - {{ timestamp | date(format="%Y-%m-%d") }}
     {% if previous.version %}\
     <small>[Compare with {{ previous.version }}](https://github.com/tembo-pages/tembo-core/compare/{{ previous.version }}...{{ version }})</small>
     {% endif %}\

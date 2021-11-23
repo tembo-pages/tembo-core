@@ -13,6 +13,7 @@ from urllib.request import urlopen
 from duty import duty
 
 PACKAGE_NAME = "tembo"
+REPO_URL = "https://github.com/tembo-pages/tembo-core"
 
 
 @duty(post=["export"])
@@ -322,16 +323,25 @@ def check_dependencies(ctx):
         pty=True,
     )
 
+
 @duty
-def changelog(ctx, planned_release: Optional[str] = None):
+def changelog(ctx, planned_release: Optional[str] = None, previous_release: Optional[str] = None):
     """
     Generate a changelog with git-cliff.
 
     Args:
         ctx: The context instance (passed automatically).
         planned_release (str, optional): The planned release version. Example: v1.0.2
+        previous_release (str, optional): The previous release version. Example: v1.0.1
     """
-    generated_changelog = ctx.run(["git", "cliff", "-u", "-t", planned_release, "-s", "header"])[:-1]
+    generated_changelog: str = ctx.run(["git", "cliff", "-u", "-t", planned_release, "-s", "header"])[:-1]
+    if previous_release is not None:
+        generated_changelog: list = generated_changelog.splitlines()
+        generated_changelog.insert(
+            1,
+            f"<small>[Compare with {previous_release}]({REPO_URL}/compare/{previous_release}..{planned_release})</small>",
+        )
+        generated_changelog: str = "\n".join([line for line in generated_changelog]) + "\n"
     new_changelog = []
 
     changelog_file = pathlib.Path(".") / "CHANGELOG.md"
