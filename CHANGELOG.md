@@ -6,6 +6,11 @@ All notable changes to this project will be documented in this file.
 ## [v1.0.2](https://github.com/tembo-pages/tembo-core/commits/v1.0.2) - 2021-11-23
 <small>[Compare with v1.0.1](https://github.com/tembo-pages/tembo-core/compare/v1.0.1..v1.0.2)</small>
 
+### Documentation
+
+- Update CHANGELOG.md ([2b5632](https://github.com/tembo-pages/tembo-core/commit/2b5632955a0090e94d353bd407955371463b9416))
+- Update license reference ([e17882](https://github.com/tembo-pages/tembo-core/commit/e17882549a209955dbf6ab2c3582b13db4df4897))
+
 ### Features
 
 - Add garbage ([b49d77](https://github.com/tembo-pages/tembo-core/commit/b49d776712737deaa1aeb86dd40230c099198d5a))
@@ -15,6 +20,8 @@ All notable changes to this project will be documented in this file.
 - Prepare release v1.0.2 ([e29ae6](https://github.com/tembo-pages/tembo-core/commit/e29ae6dadb1ca419d536db18f34d9d249012cc25))
 - Update cliff.toml ([7ee36f](https://github.com/tembo-pages/tembo-core/commit/7ee36f28b5160251c37085744166c2a5b1e695e4))
 - Update duties.py with latest changelog duty ([f6f2fe](https://github.com/tembo-pages/tembo-core/commit/f6f2fe07b61e8fa8bd812bbc63a51d3f9705a448))
+- Update cliff.toml & duties.py ([8c1d76](https://github.com/tembo-pages/tembo-core/commit/8c1d7632dded4f221c61d942b548c1552f5b8292))
+
 ## [v1.0.1](https://github.com/tembo-pages/tembo-core/commits/v1.0.1) - 2021-11-21
 <small>[Compare with v1.0.0](https://github.com/tembo-pages/tembo-core/compare/v1.0.0..v1.0.1)</small>
 
