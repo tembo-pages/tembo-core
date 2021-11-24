@@ -140,6 +140,10 @@ def release(ctx, version: str = "patch") -> None:
     print(ctx.run(["duty", "bump", f"version={version}"]))
     ctx.run(["duty", "build"])
     ctx.run(["duty", "export"])
+    print(
+        "✔ Check generated files. Run `duty changelog planned_release= previous_release=` and `duty publish password=`"
+        " when ready to publish."
+    )
 
 
 @duty

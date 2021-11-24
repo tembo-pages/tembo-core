@@ -1,22 +1,21 @@
-﻿name: tests
-
-on:
+﻿on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+  repository_dispatch:
+    types: [ok-to-test-command]
+
+name: tests
 
 jobs:
-  tests:
+  tests-trusted:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
     steps:
       # Checkout repo & install Python
       - name: Check out repository
         uses: actions/checkout@v2
         with:
-            # disable shallow clones for better sonarcloud accuracy
-            fetch-depth: 0
+          # disable shallow clones for better sonarcloud accuracy
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -61,3 +60,91 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # Repo owner has commented /ok-to-test on a (fork-based) pull request
+  integration-fork:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'repository_dispatch' &&
+      github.event.client_payload.slash_command.sha != '' &&
+      contains(github.event.client_payload.pull_request.head.sha, github.event.client_payload.slash_command.sha)
+    steps:
+      # Checkout repo & install Python
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with:
+          # disable shallow clones for better sonarcloud accuracy
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      # Install & configure Poetry
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+      # Load cached venv
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+      # Install dependencies if no cache
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --no-interaction --no-root
+      # Install package if needed
+      - name: Install package
+        run: poetry install --no-interaction
+      # Run tests
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          pytest -v --cov --junitxml=pytest.xml
+          coverage xml -i
+          sed -i 's/\/home\/runner\/work\/tembo-core\/tembo-core\///g' coverage.xml
+          sed -i 's/\/home\/runner\/work\/tembo-core\/tembo-core\///g' pytest.xml
+      # Run linting
+      - name: Run prospector linting
+        run: |
+          source .venv/bin/activate
+          prospector "./tembo"
+      # Upload to sonarcloud
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      # Update check run called "integration-fork"
+      - uses: actions/github-script@v1
+        id: update-check-run
+        if: ${{ always() }}
+        env:
+          number: ${{ github.event.client_payload.pull_request.number }}
+          job: ${{ github.job }}
+          # Conveniently, job.status maps to https://developer.github.com/v3/checks/runs/#update-a-check-run
+          conclusion: ${{ job.status }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: pull } = await github.pulls.get({
+              ...context.repo,
+              pull_number: process.env.number
+            });
+            const ref = pull.head.sha;
+            const { data: checks } = await github.checks.listForRef({
+              ...context.repo,
+              ref
+            });
+            const check = checks.check_runs.filter(c => c.name === process.env.job);
+            const { data: result } = await github.checks.update({
+              ...context.repo,
+              check_run_id: check[0].id,
+              status: 'completed',
+              conclusion: process.env.conclusion
+            });
+            return result;
