@@ -62,7 +62,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   # Repo owner has commented /ok-to-test on a (fork-based) pull request
-  test-not-trusted:
+  tests-not-trusted:
     runs-on: ubuntu-latest
     if: github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.sha != '' &&
@@ -74,6 +74,7 @@ jobs:
         with:
           # disable shallow clones for better sonarcloud accuracy
           fetch-depth: 0
+          ref: 'refs/pull/${{ github.event.client_payload.pull_request.number }}/merge'
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
