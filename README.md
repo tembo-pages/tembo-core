@@ -9,7 +9,6 @@ A simple folder organiser for your work notes.
 
 ![](https://img.shields.io/codecov/c/github/tembo-pages/tembo-core?style=flat-square)
 
-![Sonar Coverage](https://img.shields.io/sonar/coverage/tembo-pages_tembo-core?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
 ![Sonar Tests](https://img.shields.io/sonar/tests/tembo-pages_tembo-core?compact_message&failed_label=failed&passed_label=passed&server=https%3A%2F%2Fsonarcloud.io&skipped_label=skipped&style=flat-square)
 ![Sonar Tech Debt](https://img.shields.io/sonar/tech_debt/tembo-pages_tembo-core?server=https%3A%2F%2Fsonarcloud.io&style=flat-square)
 
