@@ -62,7 +62,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   # Repo owner has commented /ok-to-test on a (fork-based) pull request
-  integration-fork:
+  test-not-trusted:
     runs-on: ubuntu-latest
     if: github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.sha != '' &&
