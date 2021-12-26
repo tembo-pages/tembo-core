@@ -15,8 +15,8 @@ python = "^3.8"
 click = "^8.0.3"
 pendulum = "^2.1.2"
 Jinja2 = "^3.0.2"
-# panaetius = "^2.3.2"
-panaetius = { path = "../../panaetius", develop = true }
+panaetius = "^2.3.2"
+# panaetius = { path = "../../panaetius", develop = true }
 
 
 [tool.poetry.dev-dependencies]
