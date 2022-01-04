@@ -538,7 +538,7 @@ pyparsing = ">=2.0.2,<3.0.5 || >3.0.5"
 
 [[package]]
 name = "panaetius"
-version = "2.3.3"
+version = "2.3.4"
 description = "Python module to gracefully handle a .config file/environment variables for scripts, with built in masking for sensitive options. Provides a Splunk friendly formatted logger instance."
 category = "main"
 optional = false
