@@ -38,17 +38,17 @@ footer = """
 conventional_commits = true
 # regex for parsing and grouping commits
 commit_parsers = [
-    { message = "^feat", group = "Features"},
-    { message = "^fix", group = "Bug Fixes"},
-    { message = "^doc", group = "Documentation"},
-    { message = "^perf", group = "Performance"},
-    { message = "^refactor", group = "Refactor"},
-    { message = "^style", group = "Styling"},
-    { message = "^test", group = "Testing"},
+    { message = "^feat", group = "✨ Features"},
+    { message = "^fix", group = "🐛 Bug Fixes"},
+    { message = "^doc", group = "📘 Documentation"},
+    { message = "^perf", group = "🏎 Performance"},
+    { message = "^refactor", group = "🛠 Refactor/Improvement"},
+    { message = "^style", group = "🎨 Styling"},
+    { message = "^test", group = "🧪 Testing"},
+    { message = "^build", group = "🧱 Build"},
+    { body = ".*security", group = "🔐 Security"},
     { message = "^chore\\(release\\): prepare for", skip = true},
-    { message = "^chore", group = "Miscellaneous Tasks", skip = true},
-    { body = ".*security", group = "Security"},
-]
+    { message = "^chore", group = "🥱 Miscellaneous Tasks", skip = true},]
 # filter out the commits that are not matched by commit parsers
 filter_commits = false
 # glob pattern for matching git tags
