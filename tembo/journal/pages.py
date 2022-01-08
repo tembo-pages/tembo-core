@@ -58,7 +58,7 @@ class PageCreator:
         This factory is an abstract base class and should be implemented for each
         [Page][tembo.journal.pages.Page] type.
 
-    The private methods
+    The methods
 
     - `_check_base_path_exists()`
     - `_convert_base_path_to_path()`
@@ -415,8 +415,6 @@ class ScopedPage(Page):
     A page that uses substitute tokens.
 
     Attributes:
-        path (pathlib.Path): a [Path][pathlib.Path] object of the page's filepath including the
-            filename.
         page_content (str): the content of the page from the template.
     """
 
@@ -462,9 +460,8 @@ class ScopedPage(Page):
         Save the scoped page to disk and write the `page_content`.
 
         Raises:
-            exceptions.ScopedPageAlreadyExists: If the page already exists a
-                [ScopedPageAlreadyExists][tembo.exceptions.ScopedPageAlreadyExists] exception
-                is raised.
+            exceptions.ScopedPageAlreadyExists: Raises
+                [ScopedPageAlreadyExists][tembo.exceptions.ScopedPageAlreadyExists] if the page already exists.
 
         Returns:
             tembo.utils.Success: A [Success][tembo.utils.__init__.Success] with the path of the

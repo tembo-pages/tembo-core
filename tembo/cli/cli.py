@@ -201,7 +201,7 @@ def cli_message(message: str) -> None:
     Relay a message to the user using the CLI.
 
     Args:
-        message (str): THe message to be displayed.
+        message (str): The message to be displayed.
     """
     click.echo(f"[TEMBO] {message} 🐘")
 
