@@ -48,7 +48,8 @@ commit_parsers = [
     { message = "^build", group = "🧱 Build"},
     { body = ".*security", group = "🔐 Security"},
     { message = "^chore\\(release\\): prepare for", skip = true},
-    { message = "^chore", group = "🥱 Miscellaneous Tasks", skip = true},]
+    { message = "^chore", group = "🥱 Miscellaneous Tasks", skip = true},
+]
 # filter out the commits that are not matched by commit parsers
 filter_commits = false
 # glob pattern for matching git tags
