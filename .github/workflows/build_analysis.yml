@@ -1,4 +1,4 @@
-name: analysis
+name: build
 
 on:
   push:
