@@ -1,12 +1,10 @@
-from datetime import date
 import pathlib
+from datetime import date
 
 import pytest
 
-from tembo import PageCreatorOptions, ScopedPageCreator
-from tembo import exceptions
+from tembo import PageCreatorOptions, ScopedPageCreator, exceptions
 from tembo.utils import Success
-
 
 DATE_TODAY = date.today().strftime("%d-%m-%Y")
 

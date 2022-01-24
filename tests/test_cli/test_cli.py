@@ -5,7 +5,7 @@ import pathlib
 import pytest
 
 import tembo.cli
-from tembo.cli.cli import new, list_all
+from tembo.cli.cli import list_all, new
 
 
 def test_new_dry_run(shared_datadir, tmpdir, capsys):
