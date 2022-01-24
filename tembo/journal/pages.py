@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import pathlib
 import re
-from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
 from typing import Collection, Optional
 
@@ -354,61 +353,6 @@ class ScopedPageCreator(PageCreator):
                         extracted_token, pendulum.now().strftime(strftime_value)
                     )
         return tokenified_string
-
-
-class Page(metaclass=ABCMeta):
-    """
-    Abstract Page class.
-
-    This interface is used to define a `Page` object.
-
-    A `Page` represents a note/page that will be saved to disk.
-
-    !!! abstract
-        This object is an abstract base class and should be implemented for each `Page` type.
-    """
-
-    @abstractmethod
-    def __init__(self, path: pathlib.Path, page_content: str) -> None:
-        """
-        When implemented this should initalise a Page object.
-
-        Args:
-            path (pathlib.Path): the full path of the page including the filename as a
-                [Path][pathlib.Path].
-            page_content (str): the contents of the page.
-
-        !!! abstract
-        This method is abstract and should be implemented for each `Page` type.
-        """
-        raise NotImplementedError
-
-    @property
-    @abstractmethod
-    def path(self) -> pathlib.Path:
-        """
-        When implemented this should return the full path of the page including the filename.
-
-        Returns:
-            pathlib.Path: the path as a [Path][pathlib.Path] object.
-
-        !!! abstract
-        This property is abstract and should be implemented for each `Page` type.
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def save_to_disk(self) -> tembo.utils.Success:
-        """
-        When implemented this should save the page to disk.
-
-        Returns:
-            tembo.utils.Success: A Tembo [Success][tembo.utils.__init__.Success] object.
-
-        !!! abstract
-        This method is abstract and should be implemented for each `Page` type.
-        """
-        raise NotImplementedError
 
 
 class ScopedPage(Page):
