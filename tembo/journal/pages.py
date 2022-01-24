@@ -14,6 +14,7 @@ from jinja2.exceptions import TemplateNotFound
 
 import tembo.utils
 from tembo import exceptions
+from tembo.journal.abstract import Page, PageCreator
 
 
 @dataclass
